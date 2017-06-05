@@ -1,0 +1,25 @@
+heat_template_version: pike
+
+description: deploy a compute instance
+
+resources:
+ test:
+  type: OS::Nova::Server
+  properties:
+   key_name: chuck
+   image: Fedora-Atomic-25
+   flavor: cirros256
+   networks:
+    - network: private
+ security_group:
+  type: OS::Neutron::SecurityGroup
+  properties:
+   description: test group to demonstrate security groups
+   name: test-security-group
+   rules: [
+    {remote_ip_prefix: 0.0.0.0/0,
+     protocol: tcp,
+     port_range_min: 22,
+     port_range_max: 22},
+     {remote_ip_prefix: 0.0.0.0/0,
+      protocol: icmp}]
